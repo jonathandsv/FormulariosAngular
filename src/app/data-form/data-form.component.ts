@@ -1,22 +1,23 @@
+import { EstadoBr } from './../shared/models/estado-br.model';
 import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { DropdownService } from './../shared/services/dropdown.service';
 import { HttpClient } from '@angular/common/http';
 import { Cidade } from './../shared/models/cidade';
 import { BaseFormComponent } from '../shared/base-form/base-form.component';
-import { OnInit } from '@angular/core';
+import { OnInit, Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { FormValidations } from '../shared/form-validations';
 import { distinctUntilChanged, switchMap, tap, map } from 'rxjs/operators';
 import { empty } from 'rxjs';
 
-Component({
+@Component({
   selector: 'app-data-form',
   templateUrl: './data-form.component.html',
-  stylesUrls: ['./data-form.component.css']
+  styleUrls: ['./data-form.component.css']
 })
 export class DataFormComponent extends BaseFormComponent implements OnInit {
 
-  estados: EstadosBr[];
+  estados: EstadoBr[];
   cidades: Cidade[];
 
   cargos: any[];
@@ -30,6 +31,7 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     private http: HttpClient,
     private dropdownService: DropdownService,
     private cepService: ConsultaCepService,
+    private verificaEmailService: VerificaEmailService
   ) {
     super();
   }
@@ -136,6 +138,38 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
         estado: dados.uf
       }
     });
+
+    this.formulario.get('nome').setValue('Loiane');
+  }
+
+  resetaDadosForm() {
+    this.formulario.patchValue({
+      endereco: {
+        rua: null,
+        complemento: null,
+        bairro: null,
+        cidade: null,
+        estado: null
+      }
+    });
+  }
+
+  setarCargo() {
+    const cargo = { nome: 'Dev', nivel: 'Pleno', desc: 'Dev PL'};
+    this.formulario.get('cargo').setValue(cargo);
+  }
+
+  compararCargos(obj1, obj2) {
+    return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel) : obj1 === obj2;
+  }
+
+  setarTecnologias() {
+    this.formulario.get('tecnologias').setValue(['java', 'javscript', 'php']);
+  }
+
+  validaEmail(formControl: FormControl) {
+    return this.verificaEmailService.verificaEmail(formControl.value)
+      .pipe(map(emailExiste => emailExiste ? { emailInvalido: true } : null));
   }
 
 }
