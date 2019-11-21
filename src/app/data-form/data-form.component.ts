@@ -9,6 +9,7 @@ import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { FormValidations } from '../shared/form-validations';
 import { distinctUntilChanged, switchMap, tap, map } from 'rxjs/operators';
 import { empty } from 'rxjs';
+import { VerificaEmailService } from './services/verifica-email.service';
 
 @Component({
   selector: 'app-data-form',
@@ -61,8 +62,8 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
       }),
 
       cargo: [null],
-      tecnologias: [null];
-      newsletter: ['s'];
+      tecnologias: [null],
+      newsletter: ['s'],
       termos: [null, Validators.pattern('true')],
       frameworks: this.buildFrameworks()
     });
@@ -167,7 +168,7 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     this.formulario.get('tecnologias').setValue(['java', 'javscript', 'php']);
   }
 
-  validaEmail(formControl: FormControl) {
+  validarEmail(formControl: FormControl) {
     return this.verificaEmailService.verificaEmail(formControl.value)
       .pipe(map(emailExiste => emailExiste ? { emailInvalido: true } : null));
   }

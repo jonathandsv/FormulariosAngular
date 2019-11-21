@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 
 
 @Component({
-  selector: 'app-compo-control-erro',
+  selector: 'app-campo-control-erro',
   templateUrl: './campo-control-erro.component.html',
   styleUrls: ['./campo-control-erro.component.css']
 })
@@ -13,8 +13,7 @@ export class CampoControlErroComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    throw new Error("Method not implemented.");
+  ngOnInit() {
   }
 
 }

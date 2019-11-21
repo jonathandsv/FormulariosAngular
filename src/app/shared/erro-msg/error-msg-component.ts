@@ -17,8 +17,7 @@ export class ErroMsgComponent implements OnInit{
 
 
 
-  ngOnInit(): void {
-    throw new Error("Method not implemented.");
+  ngOnInit(){
   }
 
 
@@ -27,11 +26,11 @@ export class ErroMsgComponent implements OnInit{
     for (const propertyName in this.control.errors) {
       if (this.control.errors.hasOwnProperty(propertyName) &&
         this.control.touched) {
-          return FormValidations.getErrorMsg(this.label, propertyName, this.control.errors[propertyName])
+          return FormValidations.getErroMsg(this.label, propertyName, this.control.errors[propertyName])
         }
     }
 
-    return null
+    return null;
   }
 
 }
